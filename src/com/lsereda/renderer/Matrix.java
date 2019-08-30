@@ -1,11 +1,14 @@
 package com.lsereda.renderer;
 
 public class Matrix { //class to store matrices
+
     private double[][] values;
+
 
     public Matrix() {
 
     }
+
     public Matrix(int x, int y) {
         values = new double[x][y];
     }
@@ -18,20 +21,7 @@ public class Matrix { //class to store matrices
         return values;
     }
 
-    public void setValues(double[][] values) {
-        this.values = values;
-    }
 
-    public void display() { //used for test purposes
-        if (values != null) {
-            for (int i = 0; i < values.length; i++) {
-                for (int j = 0; j < values[i].length; j++) {
-                    System.out.print(values[i][j] + " ");
-                }
-                System.out.println("");
-            }
-        }
-    }
     public static Matrix multiply (Matrix firstArgument, Matrix secondArgument) { //simple matrices multiplication
         if (firstArgument.getValues() == null || secondArgument.getValues() == null //checking if matrices exists and have
                 || firstArgument.getValues().length == 0 || secondArgument.getValues().length == 0 //dimensions NxN where N is natural numbers without zero
@@ -72,4 +62,5 @@ public class Matrix { //class to store matrices
                 {-Math.sin(angle), 0, Math.cos(angle)}};
         return new Matrix(temp);
     }
+
 }

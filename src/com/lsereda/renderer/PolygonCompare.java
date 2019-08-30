@@ -8,6 +8,7 @@ public class PolygonCompare implements Comparator<Poly> {
         double averageADepth = 0;
         for (Vertex vA : a.getVertices()) {
             averageADepth += vA.getZ();
+
         }
         averageADepth /= a.getVerticesQuantity();
         double averageBDepth = 0;
@@ -17,4 +18,5 @@ public class PolygonCompare implements Comparator<Poly> {
         averageBDepth /= b.getVerticesQuantity();
         return (int) (averageADepth - averageBDepth);
     }
+
 }
