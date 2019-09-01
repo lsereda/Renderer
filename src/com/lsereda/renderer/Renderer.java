@@ -9,60 +9,32 @@ public class Renderer {
     private static Panel panel;
 
 
-    public static void main(String[] args) {
+    public Renderer() {
         frame = new JFrame();
+        configureFrame(frame);
+        panel = new Panel();
+        configurePanel(panel);
+    }
 
+    private void configureFrame(JFrame frame) {
         frame.setSize(800, 800); //can be changed
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
         frame.setResizable(false);
+    }
 
-        panel = new Panel();
-
+    private void configurePanel(Panel panel) {
         panel.getPane().add(panel, BorderLayout.CENTER);
         panel.getxSlider().addChangeListener(e -> panel.repaint());
         panel.getySlider().addChangeListener(e -> panel.repaint());
         panel.getzSlider().addChangeListener(e -> panel.repaint());
-
-
-        panel.getPolygons().add(new Poly(Color.WHITE, new Vertex(100, 100, 100), //test object
-                new Vertex(-100, 100, 100),
-                new Vertex(-100, -100, 100),
-                new Vertex(100, -100, 100)));
-        panel.getPolygons().add(new Poly(Color.YELLOW, new Vertex(100, 100, -100), //TODO
-                new Vertex(-100, 100, -100),
-                new Vertex(-100, -100, -100),
-                new Vertex(100, -100, -100)));
-        panel.getPolygons().add(new Poly(Color.ORANGE, new Vertex(100, 100, 100), //TODO
-                new Vertex(-100, 100, 100),
-                new Vertex(-100, 100, -100),
-                new Vertex(100, 100, -100)));
-        panel.getPolygons().add(new Poly(Color.RED, new Vertex(100, -100, 100), //TODO
-                new Vertex(-100, -100, 100),
-                new Vertex(-100, -100, -100),
-                new Vertex(100, -100, -100)));
-        panel.getPolygons().add(new Poly(Color.GREEN, new Vertex(100, 100, 100), //TODO
-                new Vertex(100, -100, 100),
-                new Vertex(100, -100, -100),
-                new Vertex(100, 100, -100)));
-        panel.getPolygons().add(new Poly(Color.BLUE, new Vertex(-100, 100, 100), //TODO
-                new Vertex(-100, -100, 100),
-                new Vertex(-100, -100, -100),
-                new Vertex(-100, 100, -100)));
-
-//        panel.getPolygons().add(new Poly(Color. WHITE, new Vertex(100, 100, 100), //another test object
-//                new Vertex(-100, -100, 100),
-//                new Vertex(-100, 100, -100)));
-//        panel.getPolygons().add(new Poly(Color.RED, new Vertex(100, 100, 100),
-//                new Vertex(-100, -100, 100),
-//                new Vertex(100, -100, -100)));
-//        panel.getPolygons().add(new Poly(Color.BLUE, new Vertex(-100, 100, -100),
-//                new Vertex(100, -100, -100),
-//                new Vertex(100, 100, 100)));
-//        panel.getPolygons().add(new Poly(Color.GREEN, new Vertex(-100, 100, -100),
-//                new Vertex(100, -100, -100),
-//                new Vertex(-100, -100, 100)));
     }
 
+    public void generatePolygons(Poly... args) {
+        for (Poly p : args) {
+            panel.getPolygons().add(p);
+        }
+    }
     public static JFrame getFrame() {
         return frame;
     }

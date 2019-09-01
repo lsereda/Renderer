@@ -43,13 +43,8 @@ public class Panel extends JPanel {
         for (Poly p : polygons) {
             LinkedList<Vertex> tempVertices = new LinkedList<>();
             for (Vertex v : p.getVertices()) {
-                Matrix rotationMatrix = Matrix.multiply(
-                        Matrix.multiply(
-                                Matrix.XYRotationMatrix(zSliderAngle), Matrix.XZRotationMatrix(ySliderAngle)
-                        ),
-                        Matrix.YZRotationMatrix(xSliderAngle)
-                );
-                tempVertices.add(new Vertex(Matrix.multiply(rotationMatrix, v.getVector3D())));
+                tempVertices.add(new Vertex(Matrix.multiply(Matrix.getXYRotationMatrix(zSliderAngle), Matrix.getXZRotationMatrix(ySliderAngle),
+                        Matrix.getYZRotationMatrix(xSliderAngle), v.getVector3D())));
             }
             temporaryPolygons.add(new Poly(tempVertices, p.getColor()));
         }
