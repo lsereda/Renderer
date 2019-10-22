@@ -1,4 +1,6 @@
 # Renderer
+Simple 3d render engine made in Java using Swing library.
+
 Use sliders to rotate object.
 
 To add new object to render engine just write method like one from ObjectExamples class and invoke it in main function.
