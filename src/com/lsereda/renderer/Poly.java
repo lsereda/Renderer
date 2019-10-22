@@ -2,10 +2,11 @@ package com.lsereda.renderer;
 
 import java.awt.*;
 import java.util.LinkedList;
+import java.util.List;
 
-public class Poly { //we assume that polygon is regular
+public class Poly {
 
-    private LinkedList<Vertex> vertices; //every polygon has vertices array
+    private List<Vertex> vertices; //every polygon has vertices array
     private Color color;
 
 
@@ -17,7 +18,7 @@ public class Poly { //we assume that polygon is regular
         }
     }
 
-     public Poly(LinkedList<Vertex> vertices, Color color) {
+     public Poly(List<Vertex> vertices, Color color) {
          this.vertices = vertices;
          this.color = color;
      }
@@ -26,7 +27,7 @@ public class Poly { //we assume that polygon is regular
         return vertices.size();
     }
 
-    public LinkedList<Vertex> getVertices() {
+    public List<Vertex> getVertices() {
         return vertices;
     }
 

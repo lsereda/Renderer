@@ -3,11 +3,17 @@ package com.lsereda.renderer;
 import javax.swing.*;
 import java.awt.*;
 import java.util.LinkedList;
+import java.util.List;
+
+import static com.lsereda.renderer.MatrixOperations.multiply;
+import static com.lsereda.renderer.MatrixOperations.getXYRotationMatrix;
+import static com.lsereda.renderer.MatrixOperations.getYZRotationMatrix;
+import static com.lsereda.renderer.MatrixOperations.getXZRotationMatrix;
 
 public class Panel extends JPanel {
 
     private Container pane;
-    private LinkedList<Poly> polygons;
+    private List<Poly> polygons;
     private JSlider xSlider;
     private JSlider ySlider;
     private JSlider zSlider;
@@ -17,14 +23,7 @@ public class Panel extends JPanel {
         pane = Renderer.getFrame().getContentPane();
         polygons = new LinkedList<>();
         pane.setLayout(new BorderLayout());
-
-        xSlider = new JSlider(-180, 180, 0); //TODO
-        ySlider = new JSlider(SwingConstants.VERTICAL, -180, 180, 0);
-        zSlider = new JSlider(SwingConstants.VERTICAL, -180, 180, 0);
-
-        pane.add(xSlider, BorderLayout.SOUTH);
-        pane.add(ySlider, BorderLayout.EAST);
-        pane.add(zSlider, BorderLayout.WEST);
+        configureSliders();
     }
 
     public void paintComponent(Graphics g) {
@@ -39,16 +38,16 @@ public class Panel extends JPanel {
         g2.translate(getWidth() / 2, getHeight() / 2);
         g2.setColor(Color.WHITE);
 
-        LinkedList<Poly> temporaryPolygons = new LinkedList<>();
+        List<Poly> temporaryPolygons = new LinkedList<>();
         for (Poly p : polygons) {
-            LinkedList<Vertex> tempVertices = new LinkedList<>();
+            List<Vertex> tempVertices = new LinkedList<>();
             for (Vertex v : p.getVertices()) {
-                tempVertices.add(new Vertex(Matrix.multiply(Matrix.getXYRotationMatrix(zSliderAngle), Matrix.getXZRotationMatrix(ySliderAngle),
-                        Matrix.getYZRotationMatrix(xSliderAngle), v.getVector3D())));
+                tempVertices.add(new Vertex(multiply(getXYRotationMatrix(zSliderAngle), getXZRotationMatrix(ySliderAngle),
+                        getYZRotationMatrix(xSliderAngle), v.getVector3D())));
             }
             temporaryPolygons.add(new Poly(tempVertices, p.getColor()));
         }
-        temporaryPolygons.sort(new PolygonCompare()); //TODO
+        temporaryPolygons.sort(new PolygonCompare());
         for (Poly p : temporaryPolygons) {
             Polygon polygon = new Polygon();
             for (Vertex v : p.getVertices()) {
@@ -61,11 +60,19 @@ public class Panel extends JPanel {
         }
     }
 
+    private void configureSliders() {
+        xSlider = new JSlider(-180, 180, 0);
+        ySlider = new JSlider(SwingConstants.VERTICAL, -180, 180, 0);
+        zSlider = new JSlider(SwingConstants.VERTICAL, -180, 180, 0);
+        pane.add(xSlider, BorderLayout.SOUTH);
+        pane.add(ySlider, BorderLayout.EAST);
+        pane.add(zSlider, BorderLayout.WEST);
+    }
     public Container getPane() {
         return pane;
     }
 
-    public LinkedList<Poly> getPolygons() {
+    public List<Poly> getPolygons() {
         return polygons;
     }
 

@@ -5,16 +5,9 @@ import java.util.Comparator;
 public class PolygonCompare implements Comparator<Poly> {
 
     public int compare (Poly a, Poly b) {
-        double averageADepth = 0;
-        for (Vertex v : a.getVertices()) {
-            averageADepth += v.getZ();
-
-        }
+        double averageADepth = a.getVertices().stream().map(Vertex::getZ).reduce(0d, Double::sum);
         averageADepth /= a.getVerticesQuantity();
-        double averageBDepth = 0;
-        for (Vertex v : b.getVertices()) {
-            averageBDepth += v.getZ();
-        }
+        double averageBDepth = b.getVertices().stream().map(Vertex::getZ).reduce(0d, Double::sum);
         averageBDepth /= b.getVerticesQuantity();
         return (int) (averageADepth - averageBDepth);
     }

@@ -10,11 +10,7 @@ public class Vertex {
     }
 
     public Vertex(double x, double y, double z) {
-        double[][] tempVector = new double[3][1];
-        tempVector[0][0] = x;
-        tempVector[1][0] = y;
-        tempVector[2][0] = z;
-        vector3D = new Matrix(tempVector);
+        vector3D = new Matrix(new double[][] {{x}, {y}, {z}});
     }
 
     public Matrix getVector3D() {

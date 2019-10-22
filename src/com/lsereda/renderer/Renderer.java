@@ -2,6 +2,7 @@ package com.lsereda.renderer;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 
 public class Renderer {
 
@@ -17,7 +18,7 @@ public class Renderer {
     }
 
     private void configureFrame(JFrame frame) {
-        frame.setSize(800, 800); //can be changed
+        frame.setSize(700, 700); //can be changed
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
         frame.setResizable(false);
@@ -30,11 +31,10 @@ public class Renderer {
         panel.getzSlider().addChangeListener(e -> panel.repaint());
     }
 
-    public void generatePolygons(Poly... args) {
-        for (Poly p : args) {
-            panel.getPolygons().add(p);
-        }
+    public void generatePolygons(List<Poly> args) {
+        args.forEach(p -> panel.getPolygons().add(p));
     }
+
     public static JFrame getFrame() {
         return frame;
     }
