@@ -1,8 +1,13 @@
 package com.lsereda.renderer;
 
+import com.lsereda.renderer.Poly;
+import com.lsereda.renderer.PolygonCompare;
+import com.lsereda.renderer.Renderer;
+import com.lsereda.renderer.Vertex;
+
 import javax.swing.*;
 import java.awt.*;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.lsereda.renderer.MatrixOperations.multiply;
@@ -21,7 +26,7 @@ public class Panel extends JPanel {
 
     public Panel() {
         pane = Renderer.getFrame().getContentPane();
-        polygons = new LinkedList<>();
+        polygons = new ArrayList<>();
         pane.setLayout(new BorderLayout());
         configureSliders();
     }
@@ -31,33 +36,16 @@ public class Panel extends JPanel {
         g2.setColor(Color.BLACK);
         g2.fillRect(0, 0, getWidth(), getHeight());
 
-        double xSliderAngle = Math.toRadians(xSlider.getValue());
-        double ySliderAngle = Math.toRadians(ySlider.getValue());
-        double zSliderAngle = Math.toRadians(zSlider.getValue());
+        final var xSliderAngle = Math.toRadians(xSlider.getValue());
+        final var ySliderAngle = Math.toRadians(ySlider.getValue());
+        final var zSliderAngle = Math.toRadians(zSlider.getValue());
 
         g2.translate(getWidth() / 2, getHeight() / 2);
         g2.setColor(Color.WHITE);
 
-        List<Poly> temporaryPolygons = new LinkedList<>();
-        for (Poly p : polygons) {
-            List<Vertex> tempVertices = new LinkedList<>();
-            for (Vertex v : p.getVertices()) {
-                tempVertices.add(new Vertex(multiply(getXYRotationMatrix(zSliderAngle), getXZRotationMatrix(ySliderAngle),
-                        getYZRotationMatrix(xSliderAngle), v.getVector3D())));
-            }
-            temporaryPolygons.add(new Poly(tempVertices, p.getColor()));
-        }
+        final var temporaryPolygons = applyRotations(polygons, xSliderAngle, ySliderAngle, zSliderAngle);
         temporaryPolygons.sort(new PolygonCompare());
-        for (Poly p : temporaryPolygons) {
-            Polygon polygon = new Polygon();
-            for (Vertex v : p.getVertices()) {
-                polygon.addPoint((int) v.getX(), (int) v.getY());
-            }
-            g.setColor(p.getColor());
-            g.fillPolygon(polygon);
-            g.setColor(Color.BLACK);
-            g.drawPolygon(polygon);
-        }
+        drawPolygons(temporaryPolygons, g);
     }
 
     private void configureSliders() {
@@ -68,6 +56,7 @@ public class Panel extends JPanel {
         pane.add(ySlider, BorderLayout.EAST);
         pane.add(zSlider, BorderLayout.WEST);
     }
+
     public Container getPane() {
         return pane;
     }
@@ -76,16 +65,43 @@ public class Panel extends JPanel {
         return polygons;
     }
 
-    public JSlider getxSlider() {
+    public JSlider getXSlider() {
         return xSlider;
     }
 
-    public JSlider getySlider() {
+    public JSlider getYSlider() {
         return ySlider;
     }
 
-    public JSlider getzSlider() {
+    public JSlider getZSlider() {
         return zSlider;
+    }
+
+    public static List<Poly> applyRotations(List<Poly> polygons, double xSliderAngle,
+                                            double ySliderAngle, double zSliderAngle) {
+        final var result = new ArrayList<Poly>();
+        for (var p : polygons) {
+            final var tempVertices = new ArrayList<Vertex>();
+            for (var v : p.getVertices()) {
+                tempVertices.add(new Vertex(multiply(getXYRotationMatrix(zSliderAngle),
+                        getXZRotationMatrix(ySliderAngle), getYZRotationMatrix(xSliderAngle), v.getCoordinates())));
+            }
+            result.add(new Poly(tempVertices, p.getColor()));
+        }
+        return result;
+    }
+
+    private void drawPolygons(List<Poly> polygons, Graphics g) {
+        for (var p : polygons) {
+            var polygon = new Polygon();
+            for (var v : p.getVertices()) {
+                polygon.addPoint((int) v.getX(), (int) v.getY());
+            }
+            g.setColor(p.getColor());
+            g.fillPolygon(polygon);
+            g.setColor(Color.BLACK);
+            g.drawPolygon(polygon);
+        }
     }
 
 }

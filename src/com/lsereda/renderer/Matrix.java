@@ -1,12 +1,9 @@
 package com.lsereda.renderer;
 
 
-public class Matrix { //class to store matrices
+public class Matrix {
 
     private double[][] values;
-
-
-    public Matrix() {}
 
     public Matrix(int x, int y) {
         values = new double[x][y];

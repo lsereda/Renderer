@@ -1,29 +1,30 @@
 package com.lsereda.renderer;
 
+import com.lsereda.renderer.Vertex;
+
 import java.awt.*;
-import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Poly {
 
-    private List<Vertex> vertices; //every polygon has vertices array
+    private List<Vertex> vertices;
     private Color color;
 
 
-    public Poly(Color color, Vertex... args) { //constructor with variable arguments
+    public Poly(Color color, Vertex... args) {
         this.color = color;
-        vertices = new LinkedList<>();
-        for (Vertex v : args) {
-            vertices.add(v);
-        }
+        vertices = new ArrayList<>();
+        vertices.addAll(Arrays.asList(args));
     }
 
-     public Poly(List<Vertex> vertices, Color color) {
-         this.vertices = vertices;
-         this.color = color;
-     }
+    public Poly(List<Vertex> vertices, Color color) {
+        this.vertices = vertices;
+        this.color = color;
+    }
 
-     public int getVerticesQuantity() {
+    public int getVerticesQuantity() {
         return vertices.size();
     }
 

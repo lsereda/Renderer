@@ -1,22 +1,19 @@
 package com.lsereda.renderer;
 
-import java.util.LinkedList;
-import java.util.List;
+import com.lsereda.renderer.Poly;
+import com.lsereda.renderer.Renderer;
 
-import static com.lsereda.renderer.ObjectExamples.addCubePolygonsToList;
+import java.util.ArrayList;
+
 import static com.lsereda.renderer.ObjectExamples.addTetrahedronPolygonsToList;
 
 public class Main {
 
-
     public static void main(String[] args) {
-        Renderer renderEngine = new Renderer();
-        List<Poly> polygons = new LinkedList<>();
-        //test objects (do not use both of them):
-        addCubePolygonsToList(polygons);
-//        addTetrahedronPolygonsToList(polygons);
+        final var renderEngine = new Renderer();
+        final var polygons = new ArrayList<Poly>();
+        addTetrahedronPolygonsToList(polygons);
         renderEngine.generatePolygons(polygons);
     }
-
 
 }

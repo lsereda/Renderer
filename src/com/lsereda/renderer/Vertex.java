@@ -1,32 +1,34 @@
 package com.lsereda.renderer;
 
+import com.lsereda.renderer.Matrix;
+
 public class Vertex {
 
 
-    private Matrix vector3D; //every vertex has vector of its cordinates
+    private com.lsereda.renderer.Matrix coordinates;
 
-    public Vertex(Matrix vector) {
-        this.vector3D = vector;
+    public Vertex(com.lsereda.renderer.Matrix vector) {
+        this.coordinates = vector;
     }
 
     public Vertex(double x, double y, double z) {
-        vector3D = new Matrix(new double[][] {{x}, {y}, {z}});
+        coordinates = new com.lsereda.renderer.Matrix(new double[][] {{x}, {y}, {z}});
     }
 
-    public Matrix getVector3D() {
-        return vector3D;
+    public Matrix getCoordinates() {
+        return coordinates;
     }
 
     public double getX() {
-        return this.vector3D.getValues()[0][0];
+        return this.coordinates.getValues()[0][0];
     }
 
     public double getY() {
-        return this.vector3D.getValues()[1][0];
+        return this.coordinates.getValues()[1][0];
     }
 
     public double getZ() {
-        return this.vector3D.getValues()[2][0];
+        return this.coordinates.getValues()[2][0];
     }
 
 }
